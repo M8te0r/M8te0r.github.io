@@ -29,6 +29,8 @@ jobs:
     # 4️⃣ 构建 MkDocs
     - name: Build MkDocs site
       run: mkdocs build --site-dir site
+      run: rsync -av index.html projects assets site/
+
 
     # 5️⃣ 复制主页和项目页到 site/
     - name: Copy homepage and projects
@@ -41,5 +43,4 @@ jobs:
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v4
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./site
