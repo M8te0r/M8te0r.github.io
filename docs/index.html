@@ -19,12 +19,8 @@
 
 
     <!-- highlight.js -->
-    <script src="
-    https://cdn.jsdelivr.net/npm/highlight.js@11.11.1/lib/core.min.js
-    "></script>
-    <link href="
-    https://cdn.jsdelivr.net/npm/highlight.js@11.11.1/styles/github.min.css
-    " rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.11.1/styles/github.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
 
     <!-- marked -->
     <script src="https://cdn.jsdelivr.net/npm/marked@17.0.0/lib/marked.umd.min.js"></script>
@@ -86,6 +82,9 @@
     </style>
 
     <script>
+        // Initialize highlight.js
+        hljs.highlightAll();
+
         // Configure marked
         marked.use({
             breaks: true,
