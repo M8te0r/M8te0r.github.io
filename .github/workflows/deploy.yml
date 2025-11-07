@@ -29,15 +29,13 @@ jobs:
     # 4️⃣ 构建 MkDocs
     - name: Build MkDocs site
       run: mkdocs build --site-dir site
-      run: rsync -av index.html projects assets site/
 
 
     # 5️⃣ 复制主页和项目页到 site/
     - name: Copy homepage and projects
       run: |
-        cp index.html site/
-        cp -r projects site/
-        cp -r assets site/
+        mkdir -p site
+        rsync -av index.html projects assets site/
 
     # 6️⃣ 部署到 GitHub Pages（gh-pages 分支）
     - name: Deploy to GitHub Pages
