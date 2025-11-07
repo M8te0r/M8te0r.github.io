@@ -13,15 +13,15 @@ theme:
   #   scheme: default
 
 markdown_extensions:
-  # - admonition
-  # - toc:
-  #     permalink: true
+  - admonition
+  - toc:
+      permalink: true
   - pymdownx.arithmatex:
-      # generic: true          # 使用 KaTeX 渲染
+      generic: true          # 使用 KaTeX 渲染
   - pymdownx.superfences     # 支持多语言代码块
   - pymdownx.highlight       # 代码块高亮
   - pymdownx.arithmatex      # 数学公式支持
-  # - pymdownx.inlinehilite    # 行内高亮
+  - pymdownx.inlinehilite    # 行内高亮
 
 # plugins:
 #   - search
@@ -33,12 +33,12 @@ markdown_extensions:
 #   - 项目展示:
 #       - 照片集: projects/gallery.md
 
-# extra_css:
-#   - https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css
-#   - https://cdn.jsdelivr.net/npm/highlight.js@11.8.0/styles/github.min.css
+extra_css:
+  - https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css
+  - https://cdn.jsdelivr.net/npm/highlight.js@11.8.0/styles/github.min.css
 
-# extra_javascript:
-#   - https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js
-#   - https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js
-#   - https://cdn.jsdelivr.net/npm/highlight.js@11.8.0/lib/highlight.js
+extra_javascript:
+  - https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js
+  - https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js
+  - https://cdn.jsdelivr.net/npm/highlight.js@11.8.0/lib/highlight.js
 #   - javascripts/math-and-highlight.js
