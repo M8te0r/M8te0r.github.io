@@ -14,8 +14,7 @@
         integrity="sha384-J+9dG2KMoiR9hqcFao0IBLwxt6zpcyN68IgwzsCSkbreXUjmNVRhPFTssqdSGjwQ"
         crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/contrib/auto-render.min.js"
-        integrity="sha384-hCXGrW6PitJEwbkoStFjeJxv+fSOOQKOPbJxSfM6G5sWZjAyWhXiTIIAmQqnlLlh" crossorigin="anonymous"
-        onload="renderMathInElement(document.body);"></script>
+        integrity="sha384-hCXGrW6PitJEwbkoStFjeJxv+fSOOQKOPbJxSfM6G5sWZjAyWhXiTIIAmQqnlLlh" crossorigin="anonymous"></script>
 
 
     <!-- highlight.js -->
@@ -83,8 +82,23 @@
             // Configure marked
             marked.use({
                 breaks: true,
-                gfm: true
+                gfm: true,
+                mangle: false
             });
+
+            // Configure KaTeX
+            window.renderMathInContent = function(element) {
+                renderMathInElement(element, {
+                    delimiters: [
+                        { left: "$$", right: "$$", display: true },
+                        { left: "$", right: "$", display: false }
+                    ],
+                    throwOnError: false,
+                    errorCallback: function(error) {
+                        console.warn('KaTeX error:', error);
+                    }
+                });
+            };
         });
 
         async function loadMarkdown(file) {
@@ -95,21 +109,14 @@
                 }
                 const text = await res.text();
 
-                // Parse markdown
+                // Parse markdown and get the content element
                 const content = document.getElementById('content');
+                
+                // Set HTML content with parsed markdown
                 content.innerHTML = marked.parse(text);
 
                 // Render math formulas
-                renderMathInElement(content, {
-                    delimiters: [
-                        { left: "$$", right: "$$", display: true },
-                        { left: "$", right: "$", display: false }
-                    ],
-                    throwOnError: false,
-                    errorCallback: function (error) {
-                        console.warn('KaTeX error:', error);
-                    }
-                });
+                window.renderMathInContent(content);
 
                 // Highlight code blocks
                 content.querySelectorAll('pre code').forEach((block) => {
