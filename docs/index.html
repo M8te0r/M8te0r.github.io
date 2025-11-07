@@ -1,42 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>My Notes</title>
-  <link rel="stylesheet" href="../assets/katex.min.css">
-  <link rel="stylesheet" href="../assets/highlight.css">
-  <script src="../assets/marked.min.js"></script>
-  <script src="../assets/katex.min.js"></script>
-  <script src="../assets/auto-render.min.js"></script>
-  <script src="../assets/highlight.min.js"></script>
+    <meta charset="UTF-8">
+    <title>My Notes</title>
+    <link rel="stylesheet" href="../assets/katex.min.css">
+    <link rel="stylesheet" href="../assets/highlight.css">
+    <script src="../assets/marked.min.js"></script>
+    <script src="../assets/katex.min.js"></script>
+    <script src="../assets/auto-render.min.js"></script>
+    <script src="../assets/highlight.min.js"></script>
 </head>
+
 <body>
-  <h1>My Notes</h1>
-  <ul>
-    <li><a href="folder1/note1.md">Folder1 - Note1</a></li>
-    <li><a href="folder1/note2.md">Folder1 - Note2</a></li>
-    <li><a href="folder2/note1.md">Folder2 - Note1</a></li>
-  </ul>
-  <div id="content"></div>
+    <h1>My Notes</h1>
+    <h2> Geometry </h2>
+    <ul>
+        <li><a href="ComputerGraphics/Geometry/note1.md">note</a></li>
+    </ul>
+    <h2> Rendering </h2>
+    <ul>
+        <li><a href="ComputerGraphics/Rendering/note1.md">note</a></li>
+    </ul>
+    <h2> Simulation </h2>
+    <ul>
+        <li><a href="ComputerGraphics/Simulation/note1.md">note</a></li>
+    </ul>
+    <div id="content"></div>
 
-  <script>
-    async function loadMarkdown(file) {
-      const res = await fetch(file);
-      const text = await res.text();
-      document.getElementById('content').innerHTML = marked(text, { breaks: true, gfm: true });
+    <script>
+        async function loadMarkdown(file) {
+            const res = await fetch(file);
+            const text = await res.text();
+            document.getElementById('content').innerHTML = marked(text, { breaks: true, gfm: true });
 
-      renderMathInElement(document.getElementById('content'), {
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false}
-        ]
-      });
+            renderMathInElement(document.getElementById('content'), {
+                delimiters: [
+                    { left: "$$", right: "$$", display: true },
+                    { left: "$", right: "$", display: false }
+                ]
+            });
 
-      document.querySelectorAll('pre code').forEach((el) => hljs.highlightElement(el));
-    }
+            document.querySelectorAll('pre code').forEach((el) => hljs.highlightElement(el));
+        }
 
-    // 默认显示第一篇笔记
-    loadMarkdown('ComputerGraphics/Geometry/note1.md');
-  </script>
+        // 默认显示第一篇笔记
+        loadMarkdown('ComputerGraphics/Geometry/note1.md');
+    </script>
 </body>
+
 </html>
