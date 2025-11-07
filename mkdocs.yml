@@ -1,6 +1,7 @@
 site_name: My Research Notes
 site_description: 学习与论文笔记
 site_author: Meteor Tequila
+repo_url: https://github.com/M8te0r/M8te0r.github.io
 
 theme:
   name: material
@@ -8,15 +9,17 @@ theme:
     scheme: default
   features:
     - navigation.instant
-    - navigation.indexes
+    - navigation.expand
 
 markdown_extensions:
   - admonition
-  - codehilite
   - toc:
       permalink: true
-  - pymdownx.arithmatex  # 数学公式
-  - pymdownx.superfences # 代码块增强
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - pymdownx.highlight
 
 plugins:
   - search
@@ -28,11 +31,15 @@ nav:
   - 项目展示:
       - 照片集: projects/gallery.md
 
+# 重要：加载 KaTeX（CSS + JS）与 auto-render，并加载 highlight.js 样式
+extra_css:
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css
+  # highlight.js 样式（可换其他主题）
+  - https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css
+
 extra_javascript:
   - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.js
   - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/contrib/auto-render.min.js
-  - javascripts/math.js  # 创建
-
-extra_css:
-  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css
+  - https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js
+  - javascripts/math-and-highlight.js
 
