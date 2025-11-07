@@ -14,10 +14,11 @@ markdown_extensions:
   - admonition
   - toc:
       permalink: true
-  - pymdownx.arithmatex
-  - pymdownx.superfences
-  - pymdownx.highlight
-  - pymdownx.inlinehilite
+  - pymdownx.arithmatex:
+      generic: true          # 使用 KaTeX 渲染
+  - pymdownx.superfences     # 支持多语言代码块
+  - pymdownx.highlight       # 代码块高亮
+  - pymdownx.inlinehilite    # 行内高亮
 
 plugins:
   - search

@@ -1,16 +1,16 @@
 document.addEventListener("DOMContentLoaded", function() {
-  // 渲染数学公式
+  // KaTeX 渲染公式
   if (typeof renderMathInElement === "function") {
     renderMathInElement(document.body, {
       delimiters: [
-        {left: "$$", right: "$$", display: true},
-        {left: "$", right: "$", display: false}
+        {left: "$$", right: "$$", display: true},   // 块公式
+        {left: "$", right: "$", display: false}     // 行内公式
       ],
       throwOnError: false
     });
   }
 
-  // 代码高亮
+  // highlight.js 高亮代码块
   if (typeof hljs !== "undefined") {
     document.querySelectorAll('pre code').forEach((block) => {
       try { hljs.highlightElement(block); } catch (e) {}
