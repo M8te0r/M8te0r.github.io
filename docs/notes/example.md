@@ -2,6 +2,11 @@
 
 行内公式： $ E=mc^2 $ 
 
+test inline$ E=mc^2 $dada
+
+test inline $E=mc^2$ dada
+
+
 块公式：
 $$
 \nabla \cdot \mathbf{F} = 0
