@@ -5,21 +5,21 @@ repo_url: https://github.com/M8te0r/M8te0r.github.io
 
 theme:
   name: material
-  palette:
-    scheme: default
   features:
     - navigation.instant
     - navigation.expand
+  palette:
+    scheme: default
 
+# markdown extensions — keep these simple & compatible
 markdown_extensions:
   - admonition
   - toc:
       permalink: true
-  - pymdownx.arithmatex:
-      generic: true
+  - pymdownx.arithmatex
   - pymdownx.superfences
-  - pymdownx.inlinehilite
   - pymdownx.highlight
+  - pymdownx.inlinehilite
 
 plugins:
   - search
@@ -31,10 +31,9 @@ nav:
   - 项目展示:
       - 照片集: projects/gallery.md
 
-# 重要：加载 KaTeX（CSS + JS）与 auto-render，并加载 highlight.js 样式
+# 客户端加载的 CSS / JS（CDN + 本地脚本）
 extra_css:
   - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css
-  # highlight.js 样式（可换其他主题）
   - https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css
 
 extra_javascript:

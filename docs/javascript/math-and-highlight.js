@@ -1,9 +1,8 @@
-// math-and-highlight.js
+// docs/javascripts/math-and-highlight.js
 document.addEventListener("DOMContentLoaded", function() {
-  // 1) render KaTeX for inline $...$ and display $$...$$
+  // KaTeX auto-render (convert $...$ and $$...$$ to rendered math)
   if (typeof renderMathInElement === "function") {
     renderMathInElement(document.body, {
-      // 默认识别 $...$ 与 $$...$$
       delimiters: [
         {left: "$$", right: "$$", display: true},
         {left: "$", right: "$", display: false}
@@ -11,19 +10,15 @@ document.addEventListener("DOMContentLoaded", function() {
       throwOnError: false
     });
   } else {
-    console.warn("KaTeX auto-render not found.");
+    console.warn("KaTeX auto-render not loaded.");
   }
 
-  // 2) highlight.js: highlight all code blocks
+  // highlight.js: highlight all code blocks
   if (typeof hljs !== "undefined") {
     document.querySelectorAll('pre code').forEach((block) => {
-      try {
-        hljs.highlightElement(block);
-      } catch (e) {
-        // fallback: ignore
-      }
+      try { hljs.highlightElement(block); } catch (e) {}
     });
   } else {
-    console.warn("highlight.js not found.");
+    console.warn("highlight.js not loaded.");
   }
 });
