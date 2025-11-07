@@ -1,6 +1,8 @@
 site_name: My Research Notes
 site_description: 学习与论文笔记
 site_author: Meteor Tequila
+docs_dir: docs
+site_dir: site
 
 theme:
   name: material
@@ -19,6 +21,7 @@ markdown_extensions:
   - pymdownx.superfences     # 支持多语言代码块
   - pymdownx.highlight       # 代码块高亮
   - pymdownx.inlinehilite    # 行内高亮
+  - pymdownx.arithmatex      # 数学公式支持
 
 plugins:
   - search
