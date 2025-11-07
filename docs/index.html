@@ -86,6 +86,12 @@
     </style>
 
     <script>
+        // Configure marked
+        marked.use({
+            breaks: true,
+            gfm: true
+        });
+
         async function loadMarkdown(file) {
             try {
                 const res = await fetch(file);
@@ -94,7 +100,7 @@
                 }
                 const text = await res.text();
                 
-                document.getElementById('content').innerHTML = marked(text, { breaks: true, gfm: true });
+                document.getElementById('content').innerHTML = marked.parse(text);
 
                 renderMathInElement(document.getElementById('content'), {
                     delimiters: [
