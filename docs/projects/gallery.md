@@ -3,4 +3,4 @@
 
 示例：
 
-![示例图片](./res/images/mirror-spp-256.png)
+![示例图片](../../res/images/mirror-spp-256.png)
