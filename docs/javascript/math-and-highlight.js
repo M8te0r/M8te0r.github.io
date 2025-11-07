@@ -1,6 +1,5 @@
-// docs/javascripts/math-and-highlight.js
 document.addEventListener("DOMContentLoaded", function() {
-  // KaTeX auto-render (convert $...$ and $$...$$ to rendered math)
+  // 渲染数学公式
   if (typeof renderMathInElement === "function") {
     renderMathInElement(document.body, {
       delimiters: [
@@ -9,16 +8,12 @@ document.addEventListener("DOMContentLoaded", function() {
       ],
       throwOnError: false
     });
-  } else {
-    console.warn("KaTeX auto-render not loaded.");
   }
 
-  // highlight.js: highlight all code blocks
+  // 代码高亮
   if (typeof hljs !== "undefined") {
     document.querySelectorAll('pre code').forEach((block) => {
       try { hljs.highlightElement(block); } catch (e) {}
     });
-  } else {
-    console.warn("highlight.js not loaded.");
   }
 });

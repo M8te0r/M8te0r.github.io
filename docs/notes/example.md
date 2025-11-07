@@ -1,17 +1,15 @@
 # 示例笔记（测试数学与代码高亮）
 
-行内公式示例：$E=mc^2$。
+行内公式：$E=mc^2$
 
-块级公式：
+块公式：
 $$
 \nabla \cdot \mathbf{F} = 0
 $$
 
-代码示例（C++）：
-
+C++ 代码：
 ```cpp
 #include <iostream>
 int main() {
-    std::cout << "Hello Research!" << std::endl;
-    return 0;
+    std::cout << "Hello World!" << std::endl;
 }
