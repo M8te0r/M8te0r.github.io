@@ -27,3 +27,12 @@ nav:
       - 示例笔记: notes/example.md
   - 项目展示:
       - 照片集: projects/gallery.md
+
+extra_javascript:
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.js
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/contrib/auto-render.min.js
+  - javascripts/math.js  # 创建
+
+extra_css:
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css
+
