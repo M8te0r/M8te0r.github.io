@@ -14,24 +14,33 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
+      # 1. 拉取仓库
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+      # 2. 安装 Python 和 MkDocs
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v4
         with:
           python-version: '3.x'
 
       - name: Install dependencies
         run: |
           pip install mkdocs mkdocs-material pymdown-extensions
-
+      
+      # 3. 构建 MkDocs 到 site/
       - name: Build Site
         run: mkdocs build --site-dir site
+      
+      # 4. 将主页、项目页复制到 site/ 根目录
+      - name: Copy static homepage and projects
+        run: |
+          cp index.html site/
+          cp -r projects site/
+          cp -r assets site/
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./site
-
+      # 5. 部署到 gh-pages
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v6
+        with:
+          publish_dir: ./site
