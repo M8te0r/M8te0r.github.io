@@ -19,19 +19,11 @@
 
 
     <!-- highlight.js -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.11.1/styles/github.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
 
     <!-- marked -->
     <script src="https://cdn.jsdelivr.net/npm/marked@17.0.0/lib/marked.umd.min.js"></script>
-
-
-    <!-- <link rel="stylesheet" href="../assets/katex.min.css">
-    <link rel="stylesheet" href="../assets/highlight.css">
-    <script src="../assets/marked.min.js"></script>
-    <script src="../assets/katex.min.js"></script>
-    <script src="../assets/auto-render.min.js"></script>
-    <script src="../assets/highlight.min.js"></script> -->
 </head>
 
 <body>
@@ -58,15 +50,18 @@
             max-width: 800px;
             margin: 0 auto;
         }
+
         pre {
             background-color: #f6f8fa;
             padding: 1em;
             border-radius: 6px;
             overflow-x: auto;
         }
+
         code {
             font-family: Consolas, Monaco, 'Courier New', monospace;
         }
+
         .error {
             color: #dc3545;
             padding: 1em;
@@ -74,6 +69,7 @@
             margin: 1em 0;
             border-radius: 4px;
         }
+
         .katex-display {
             overflow-x: auto;
             overflow-y: hidden;
@@ -82,13 +78,13 @@
     </style>
 
     <script>
-        // Initialize highlight.js
-        hljs.highlightAll();
-
-        // Configure marked
-        marked.use({
-            breaks: true,
-            gfm: true
+        // Wait for DOM to be ready
+        document.addEventListener('DOMContentLoaded', function () {
+            // Configure marked
+            marked.use({
+                breaks: true,
+                gfm: true
+            });
         });
 
         async function loadMarkdown(file) {
@@ -98,21 +94,31 @@
                     throw new Error(`HTTP error! status: ${res.status}`);
                 }
                 const text = await res.text();
-                
-                document.getElementById('content').innerHTML = marked.parse(text);
 
-                renderMathInElement(document.getElementById('content'), {
+                // Parse markdown
+                const content = document.getElementById('content');
+                content.innerHTML = marked.parse(text);
+
+                // Render math formulas
+                renderMathInElement(content, {
                     delimiters: [
                         { left: "$$", right: "$$", display: true },
                         { left: "$", right: "$", display: false }
                     ],
                     throwOnError: false,
-                    errorCallback: function(error) {
+                    errorCallback: function (error) {
                         console.warn('KaTeX error:', error);
                     }
                 });
 
-                document.querySelectorAll('pre code').forEach((el) => hljs.highlightElement(el));
+                // Highlight code blocks
+                content.querySelectorAll('pre code').forEach((block) => {
+                    try {
+                        hljs.highlightElement(block);
+                    } catch (e) {
+                        console.warn('Highlight.js error:', e);
+                    }
+                });
             } catch (error) {
                 console.error('Error loading markdown:', error);
                 document.getElementById('content').innerHTML = `<div class="error">Error loading content: ${error.message}</div>`;
