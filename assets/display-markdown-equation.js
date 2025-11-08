@@ -79,6 +79,12 @@ async function loadMarkdown(file) {
         // Set HTML content with parsed markdown
         content.innerHTML = marked.parse(text);
 
+        // 自动修正图片路径
+        const basePath = file.substring(0, file.lastIndexOf('/') + 1); // Markdown 文件所在目录
+        content.querySelectorAll('img').forEach(img => {
+            img.src = basePath + img.getAttribute('src');
+        });
+
         // Render math formulas
         window.renderMathInContent(content);
 
@@ -95,3 +101,65 @@ async function loadMarkdown(file) {
         document.getElementById('content').innerHTML = `<div class="error">Error loading content: ${error.message}</div>`;
     }
 }
+
+async function loadSidebar() {
+    const res = await fetch('../assets/sidebar.json');
+    const data = await res.json();
+    const sidebar = document.getElementById('sidebar');
+    sidebar.innerHTML = '';
+
+    for (const category in data) {
+        const h1 = document.createElement('h1');
+        h1.textContent = category;
+        sidebar.appendChild(h1);
+
+        const rootFiles = data[category]['__root__'] || [];
+        if (rootFiles.length > 0) {
+            const ulRoot = document.createElement('ul');
+            rootFiles.forEach(file => {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.href = '#';
+                a.textContent = file.replace('.md','');
+                a.onclick = () => {
+                    loadMarkdown(`${category}/${file}`);
+                    return false;
+                };
+                li.appendChild(a);
+                ulRoot.appendChild(li);
+            });
+            sidebar.appendChild(ulRoot);
+        }
+
+        for (const subcategory in data[category]) {
+            if (subcategory === '__root__') continue; // 跳过根目录文件
+
+            const h2 = document.createElement('h2');
+            h2.textContent = subcategory;
+            sidebar.appendChild(h2);
+
+            const ul = document.createElement('ul');
+            data[category][subcategory].forEach(file => {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.href = '#';
+                a.textContent = file.replace('.md','');
+                a.onclick = () => {
+                    loadMarkdown(`${category}/${subcategory}/${file}`);
+                    return false;
+                };
+                li.appendChild(a);
+                ul.appendChild(li);
+            });
+            sidebar.appendChild(ul);
+        }
+    }
+}
+
+// 页面加载时生成导航栏
+//loadSidebar();
+window.addEventListener('DOMContentLoaded', () => {
+    loadSidebar();
+    // 可以默认加载某篇笔记
+    loadMarkdown('Maths/math-concepts.md');
+});
