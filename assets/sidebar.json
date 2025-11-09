@@ -1,6 +1,7 @@
 {
     "ComputerGraphics": {
         "Geometry": [
+            "CubeCover.md",
             "Mint Discretely Integrable Moments for Symmetric Frame Fields.md",
             "H-Morph.md"
         ],
