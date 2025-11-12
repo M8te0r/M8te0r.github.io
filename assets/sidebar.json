@@ -2,8 +2,9 @@
     "ComputerGraphics": {
         "Geometry": [
             "CubeCover.md",
-            "Mint Discretely Integrable Moments for Symmetric Frame Fields.md",
-            "H-Morph.md"
+            "Mint.md",
+            "H-Morph.md",
+            "Meshable.md"
         ],
         "Rendering": [
             "note1.md"

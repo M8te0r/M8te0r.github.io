@@ -1,3 +1,4 @@
+# CubeCover– Parameterization of 3D Volumes
 # 简介
 CubeCover使用标架场引导具有边界对齐的Cubes，然后生成六面体。
 1. 构建了一套考虑奇异结构的体参数化理论

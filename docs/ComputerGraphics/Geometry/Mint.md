@@ -75,6 +75,15 @@ $$
 
 > 当 $k$ 是偶数时，这个`lift`对于八面体群中的每一个元素 $g\in\mathcal{O}$ 满足对称性 $L_k(F)=L_k(Fg)$ 。所以，这个`lift`是一个从 $\mathbb{R}^{3\times 3}/\mathcal{O}$ 到 $\mathbb{R}^{3^k}$ 的完备的映射。具体概念见论文[Palmer et al. 2020](https://dl.acm.org/doi/abs/10.1145/3366786)。
 
+假设给定一个标架 $\boldsymbol{F}=[\boldsymbol{f}_1,\boldsymbol{f}_2,\boldsymbol{f}_3]$ ，那么他的2阶矩张量是：
+
+$$
+L_2(\boldsymbol{F})=
+\boldsymbol{f}_1\otimes\boldsymbol{f}_1+
+\boldsymbol{f}_2\otimes\boldsymbol{f}_2+
+\boldsymbol{f}_3\otimes\boldsymbol{f}_3
+$$
+
 
 # 核心思想
 定义了一个从对称标架 $\boldsymbol{F}$ 到矩空间（space of moments）的映射： $\mathcal{M}=\mathbb{R}^{3^2}\oplus\mathbb{R}^{3^4}\oplus\mathbb{R}^{3^6}$ ：
@@ -156,6 +165,18 @@ $$
 -  $\bar{M}_k=M_k|_{\mathcal{F}}$ 表示将 $M_k$ 限制在 $\mathcal{F}$ 的切平面
 - 将 $\boldsymbol{f}_i$ 投影到 $\mathcal{F}$ 上，得到 $\boldsymbol{\pi}_i$
 
+即，可以使用 $\mathcal{F}$ 上的两个边向量 $\boldsymbol{e}_1,\boldsymbol{e}_2$ 表示：
+$$
+\begin{align*}
+M_k(\boldsymbol{e}_1,\boldsymbol{e}_2)
+&=\sum_i \prod_j \boldsymbol{f}_i \cdot \boldsymbol{e}_j \\
+&=\boldsymbol{f}_1\cdot \boldsymbol{e}_1 \cdot \boldsymbol{f}_1 \cdot \boldsymbol{e}_2  \\
+&\quad + \boldsymbol{f}_2\cdot \boldsymbol{e}_1 \cdot \boldsymbol{f}_2 \cdot \boldsymbol{e}_2 \\
+&\quad+ \cdots \\
+&\quad+ \boldsymbol{f}_i\cdot \boldsymbol{e}_1 \cdot \boldsymbol{f}_i \cdot \boldsymbol{e}_2 \\\
+\end{align*}
+$$
+
 任意选一个基来表示 $\mathcal{F}$ 的切空间，并记该切空间下 $\boldsymbol{\pi}_i$ 为 $\bar{\boldsymbol{f}}_i \in \mathbb{R}^2$ 。那么对于任意偶数 $k$ ，可以得到离散可积的必要条件：
 
 $$
@@ -226,6 +247,8 @@ $$
 -  $\lambda_\text{unit}=10^{-5}$
 -  $\lambda_\text{plane}=10^{-6}$
 
+
+
 整体的优化问题可以表示为：
 
 $$
@@ -237,5 +260,13 @@ $$
     \boldsymbol{f}_1(\tau)&=\hat{\boldsymbol{n}}(\tau) \quad \forall \,\, \text{ghost tets} \,\, \tau
 \end{align*}
 \right .
+$$
+
+在实际中，使用**牛顿迭代法**求解该优化问题：
+
+$$
+\mathfrak{F}^{i=1}
+=
+\arg\min_\mathfrak{F} 10^8 (\frac{1}{\lambda_\text{pen}})^i E_\text{mesh}+E_\text{int}
 $$
 
