@@ -4,34 +4,38 @@
 <head>
     <meta charset="UTF-8">
     <title>My Notes</title>
-    <!-- katex -->
+    
+    <!-- marked markdown 文件解析-->
+    <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"></script>
+
+    <!-- markdown样式 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.css" integrity="sha512-Hasfm7Iv5AG2/v5DSRXetpC33VjyPBXn5giooMag2EgSbiJ2Xp4GGvYGKSvc68SiJIflF/WrbDFdNmtlZHE5HA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- katex 数学公式解析 -->
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex.min.css" rel="stylesheet">
     
-    <!-- auto-render -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex.min.css"
-        integrity="sha384-WcoG4HRXMzYzfCgiyfrySxx90XSl2rxY5mnVY5TwtWE6KLrArNKn0T/mOgNL0Mmi" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex.min.js"
-        integrity="sha384-J+9dG2KMoiR9hqcFao0IBLwxt6zpcyN68IgwzsCSkbreXUjmNVRhPFTssqdSGjwQ"
-        crossorigin="anonymous"></script>
+    <!-- auto-render 数学公式渲染 -->
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/contrib/auto-render.min.js"
         integrity="sha384-hCXGrW6PitJEwbkoStFjeJxv+fSOOQKOPbJxSfM6G5sWZjAyWhXiTIIAmQqnlLlh" crossorigin="anonymous"></script>
+    
+    <!-- 数学公式调整 -->
+    <script src="../assets/display-markdown-equation.js" defer></script>
 
-
-    <!-- highlight.js -->
+    <!-- highlight.js 代码块渲染 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/atom-one-dark.min.css"
         integrity="sha512-Jk4AqjWsdSzSWCSuQTfYRIF84Rq/eV0G2+tu07byYwHcbTGfdmLrHjUSwvzp5HvbiqK4ibmNwdcG49Y5RGYPTg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css"> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
 
-    <!-- marked -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"></script>
+    
 
-    <script src="../assets/display-markdown-equation.js" defer></script>
+    
 
-    <!-- 笔记的样式 -->
-    <link rel="stylesheet" href="../assets/display-notes.css">
+    
+    <!-- 笔记首页的样式 -->
+    <link rel="stylesheet" href="../assets/docs-index.css">
 
 </head>
 
@@ -48,7 +52,7 @@
         </nav>
 
         <!-- 右侧内容区域 -->
-        <main id="content">
+        <main id="content" class="markdown-body">
             <!-- Markdown 内容会被 JS 填充 -->
         </main>
     </div>

@@ -149,10 +149,12 @@ $$
 ![alt text](image-16.png)
 
 六面体网格诱导的标架场仅包含`meshable singular arcs`，但是一般的标架场允许`non meshable singular`类型，可能会存在以下缺陷：
-1. 复合单值路径（`Compound Monodromy`）：
+1. 复合单值路径（`Compound Monodromy`）：标架场沿着某个轴防线给旋转的叫做`flow-aligned arcs`，八面体群中的其他不可网格化单值是有可能存在的。
 2. 流错配（`Flow Misalignment`）：奇异弧与标架场不是相切的，见下图
 3. 非常数邻域（`Non-constant Footprint`）：虽然流对齐弧的`index`是常数，但是`sector`任然可以沿着弧变化并同时保持`index`不变。比方说：一条孤立的分界线可以变成一个`polar`区域或者变成一对`hyperbolic`区域或者变成一对`elliptic`区域（因为这样分裂并不会改变`index`）。
 4. 不可网格化邻域（`Non-meshable Footprint`）：有些网格不满足条件3（只能有4边形）
+
+
 
 奇异弧有一个单值（`monodromy`） $\mu$ ，描述了沿着环绕奇异弧的环移动时所经历的旋转。八面体群（`octahedral group`） $\mathcal{O}$ 中的一个元素。
 
@@ -165,5 +167,10 @@ $$
 -`zipper nodes`：在`zipping`和`unzipping`前后，都会产生一个奇异节点，称为`zipper nodes`。
 
 `arc zipping`操作其实是2d上插入节点修改区域类型的的一种推广。比方说：
-- 一条常规`streamline`，即 $I=0$ 的`flow-aligned singular arc`，可以被`unzipped`为拥有相反`Index` $I_1=-I_2$ 的两条奇异弧.
+- 一条常规`streamline`，即 $I=0$ 的`flow-aligned singular arc`，可以被`unzipped`为拥有相反`index` $I_1=-I_2$ 的两条奇异弧。这个特性可以用于所有其他`meshable`的构造过程中，因为这两条奇异弧的生成分别对应`footprint`中一个`quad`扇区的新增和删除。
+
+
+通过依次移除上面提到的4种缺陷，一个标架场可以变成仅具有`meshable`奇异弧的标架场。
+1. 缺陷1 ：jiang et al 2014 指出，`non-meshable`的单值是`meshable`单值的乘积。即：两条已经被合并（`zipped together`）在一起的非平行弧。
+
 
