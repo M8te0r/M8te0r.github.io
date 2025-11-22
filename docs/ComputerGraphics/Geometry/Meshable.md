@@ -1,12 +1,13 @@
 # Locally Meshable Frame Fields
 # 简介
 在基于标架场的六面体网格生成算法中，对鲁棒性影响最大的问题就是不可网格化的拓扑参数（`non-meshable topological configurations`）。它们在对标架场进行平滑时会产生，但是却无法构造整数网格映射（`integer-grid map`）
-1. 可以将non-meshable的标架场转换为近似的meshable的标架场
+1. 提出了关于局部可网格化标架场（`locally meshable frame fields`）的理论
+2. 提出了一个算法，用于将给定标架场转换为`meshable`的标架场
 
 不足：
-需要对zipper nodes进行严格的限制
-局部可网格化只是全局可网格化的必要非充分条件。  
-给定一个可网格化的标架场，目前没有算法可以保证能够找到一个具有唯一拓扑结构的无缝映射。
+1. 需要对zipper nodes进行严格的限制
+2. 局部可网格化只是全局可网格化的必要非充分条件。  
+3. 给定一个可网格化的标架场，目前没有算法可以保证能够找到一个具有唯一拓扑结构的无缝映射。
 
 # 背景
 首先回顾一下典型的整数网格映射流程：
@@ -18,7 +19,7 @@
 
 目前，步骤2、4可以分别通过[Bruckler et al. 2022](https://dl.acm.org/doi/abs/10.1145/3528223.3530123)的整数化算法和[Lyon et al. 2016](https://dl.acm.org/doi/abs/10.1145/2897824.2925976)的线性网格提取算法鲁棒的完成，其余步骤仍然不稳定。
 
-## 标架场的可网格性（Meshability）
+# 标架场的可网格性（Meshability）
 鲁棒性差最主要的来源是标架场和整数网格之间的拓扑错位（`topological mismatch`），
 
 
@@ -101,10 +102,10 @@ $$
 在四边形网格上，四边形的边可以被理解成目标标架场`streamline`的离散表示。同样的，一个离散流线`discrete streamline`会穿过常规顶点，会形成封闭的环也可能在边界点或奇异点处停止。
 
 ### meshability condition
-1. 特征对齐（`Feature Alignment`）:标架场与所有的特征曲线对齐，确保正确的构造四边形网格。
-2. 孤立的奇异结构（`Isolated Singularities`）:所有满足 $||F||_2=0$ 的奇异结构都是奇异点，不存在可能导致网格退化的奇异线或者奇异面（curve or patch singularities）。
-3. 只有四边形（`Quad sectors only`）：标架场不能由`polar`和`anti-quad`区域。这些区域会导致非四边形单元的产生。
-4. 不存在极限环（`No limit cycles`）：网格诱导的标架场拓扑的所有`streamline`，要么是`closed orbits`，要么在奇点或者边界处终止。
+1. （C1）:特征对齐（`Feature Alignment`）:标架场与所有的特征曲线对齐，确保正确的构造四边形网格。
+2. （C2）:孤立的奇异结构（`Isolated Singularities`）:所有满足 $||F||_2=0$ 的奇异结构都是奇异点，不存在可能导致网格退化的奇异线或者奇异面（curve or patch singularities）。
+3. （C3）:只有四边形（`Quad sectors only`）：标架场不能由`polar`和`anti-quad`区域。这些区域会导致非四边形单元的产生。
+4. （C4）:不存在极限环（`No limit cycles`）：网格诱导的标架场拓扑的所有`streamline`，要么是`closed orbits`，要么在奇点或者边界处终止。
 
 ### 区域修改以确保Local meshability
 > 局部可网格化要求满足条件1、2、3。条件4可以略去，只有在全局尺度上考虑时有关 。
@@ -143,22 +144,20 @@ $$
 
 所以，只有**保证了`streamsurface`的可积性**，才能明确的定义一个`well-defined`的`streamsurface`将空间划分为hex。
 
-### 奇异弧（Singular Arcs）
+## 奇异弧（Singular Arcs）
 一个2d标架场的局部邻域被称为`footprint`。沿着另一个轴，形成一个扫掠体（`sweep`）。那么中间会形成一条 `flow-aligned singular arc`，如果奇点周围都`quad`区域，那么这个扫掠体被叫做`meshable singular arc`。`flow-aligned singular arc`的`index`就是其`footprint`的`index`。
 
 ![alt text](image-16.png)
 
 六面体网格诱导的标架场仅包含`meshable singular arcs`，但是一般的标架场允许`non meshable singular`类型，可能会存在以下缺陷：
-1. 复合单值路径（`Compound Monodromy`）：标架场沿着某个轴防线给旋转的叫做`flow-aligned arcs`，八面体群中的其他不可网格化单值是有可能存在的。
-2. 流错配（`Flow Misalignment`）：奇异弧与标架场不是相切的，见下图
-3. 非常数邻域（`Non-constant Footprint`）：虽然流对齐弧的`index`是常数，但是`sector`任然可以沿着弧变化并同时保持`index`不变。比方说：一条孤立的分界线可以变成一个`polar`区域或者变成一对`hyperbolic`区域或者变成一对`elliptic`区域（因为这样分裂并不会改变`index`）。
-4. 不可网格化邻域（`Non-meshable Footprint`）：有些网格不满足条件3（只能有4边形）
+1. （D1）:复合单值路径（`Compound Monodromy`）：标架场沿着某个轴防线给旋转的叫做`flow-aligned arcs`，八面体群中的其他不可网格化单值是有可能存在的。
+2. （D2）:流错配（`Flow Misalignment`）：奇异弧与标架场不是相切的，见下图
+3. （D3）:非常数邻域（`Non-constant Footprint`）：虽然流对齐弧的`index`是常数，但是`sector`任然可以沿着弧变化并同时保持`index`不变。比方说：一条孤立的分界线可以变成一个`polar`区域或者变成一对`hyperbolic`区域或者变成一对`elliptic`区域（因为这样分裂并不会改变`index`）。
+4. （D4）:不可网格化邻域（`Non-meshable Footprint`）：有些网格不满足条件3（只能有4边形）
 
 
 
-奇异弧有一个单值（`monodromy`） $\mu$ ，描述了沿着环绕奇异弧的环移动时所经历的旋转。八面体群（`octahedral group`） $\mathcal{O}$ 中的一个元素。
-
-24种八面体群元素种，只有10种是围绕着标架的一个轴旋转的，并且可以生成`meshable`的奇异弧。其余14种是复合类型（`compound type`），其无法生成`meshable`的奇异弧，且 $\text{rank}(F)=1$。
+奇异弧的单值性（`monodromy`） $\mu$ ，描述了沿着环绕奇异弧的环（不包括其他奇点）移动时，参考系所经历的旋转。它是八面体群（`octahedral group`） $\mathcal{O}$ 中的一个元素。24种八面体群元素中，只有10种是围绕着标架的一个轴旋转的，并且可以生成`meshable`的奇异弧。其余14种是复合类型（`compound type`），其无法生成`meshable`的奇异弧，且 $\text{rank}(F)=1$。
 
 ### Arc Zipping
 对奇异弧和奇异节点进行调整的一个基本操作是`zipping`和`unzipping`：
@@ -171,6 +170,29 @@ $$
 
 
 通过依次移除上面提到的4种缺陷，一个标架场可以变成仅具有`meshable`奇异弧的标架场。
-1. 缺陷1 ：jiang et al 2014 指出，`non-meshable`的单值是`meshable`单值的乘积。即：两条已经被合并（`zipped together`）在一起的非平行弧。
+1. 缺陷1：jiang et al 2014 指出，所有`non-meshable`的单值环是`meshable`单值环的乘积。即：所有`non-meshable`的奇异弧是两条已经被合并（`zipped together`）在一起的非平行弧。即：一个复合类型的奇异弧，总是可以被非平行的`unzipping`分解为两条非复合类型的奇异弧。
+2. 缺陷2：可以通过对局部邻域 $\epsilon$ 上的标架场进行一个连续变换，从而使得这些标架场在保持光滑的前提下与奇异弧相切
+   - ![alt text](image-18.png)
+   - 上图中：红色的奇异弧A具有常量单值性 $\mu_A$ ，且与u方向的流线并不对齐。通过对A进行旋转，使得A能够同时对齐 $\pm u$  ，原来的奇异弧被新增的奇异点划分为3部分： $A_1、A_2、A_3$ ， 其中，绿色的 $A_1、A_3$ 与 $u$ 的正方向对齐， $A_2$ 与 $u$ 的负方向对齐。 $A_1、A_3$ 的`index`为 $I$ ，而 $A_2$ 的`index`为 $-I$
+   - 有向弧 $A$ 有两个对齐选项： $\pm a_\mu, a_\mu \in \{u,v,w\}$ ，对应单值性变换下的保持不变的两个标架轴。
+3. 缺陷3：可以通过在过渡点处添加奇异点，将一个奇异弧分裂为具有固定`footprint`的多个子弧（`sub-arcs`），
+4. 缺陷4：可以使用`unzipping`修复。
+
+
+## 奇异点
+在六面体诱导的标架场中，所有的奇异点是由多个奇异弧汇聚而成的分支点，且满足 $||F||_2=0$ 。
+
+
+- 定理1：所有`meshable`的奇异点都可以通过对`index`为 $\frac{1}{4}$ 的`meshable`的奇异弧使用迭代的`unzipping`操作构造。
+- 定理2：一个标架场中，每个仅与于`index`为 $\pm \frac{1}{2}$ 的`meshable`奇异弧相交的奇异点，都可以通过仅修改局部邻域，分解为有限个孤立`meshable`奇异弧集合和有限个孤立`zipper nodes`集合。
+- 定理3：通过修改一个任意小的局部邻域，所有与`meshable`的奇异弧相交的奇异点，不管它与什么特征曲线和特征曲面相连，都可以被修改为`meshable`的奇异点，该节点连接着一组向外的`zipper`节点、若干组额外的孤立的`meshable`奇异弧、孤立的`zipper`节点。
+
+并不是所有的奇异点都是通过对`meshable`的奇异弧进行操作而得到的。
+
+$$
+\frac{1}{2}\sum_{i=0}^n\int_0^\infty ||\nabla \boldsymbol{F}||_2 \text{d}x
+$$
+
+## 处理特征约束
 
 
