@@ -1,18 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>My Homepage</title>
-  <link rel="stylesheet" href="assets/highlight.css">
-  <link rel="stylesheet" href="assets/katex.min.css">
+  <title>three.js webgpu - projector light</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+  <link type="text/css" rel="stylesheet" href="assets/lucy-index.css">
+
 </head>
+
 <body>
-  <h1>Where does this ocean go?</h1>
-  <nav>
-    <ul>
-      <li><a href="docs/index.html">Notes</a></li>
-      <li><a href="projects/index.html">Projects</a></li>
-    </ul>
-  </nav>
+
+  <main id="content-layer">
+    <h1>Where does this ocean go?</h1>
+    <nav>
+      <ul>
+        <li><a href="docs/index.html">Notes</a></li>
+        <li><a href="projects/index.html">Projects</a></li>
+      </ul>
+    </nav>
+  </main>
+
+  <script type="importmap">
+			{
+				"imports": {
+					"three": "https://cdn.jsdelivr.net/npm/three@0.181.2/build/three.webgpu.js",
+					"three/webgpu": "https://cdn.jsdelivr.net/npm/three@0.181.2/build/three.webgpu.js",
+					"three/tsl": "https://cdn.jsdelivr.net/npm/three@0.181.2/build/three.tsl.js",
+					"three/addons/": "./jsm/"
+				}
+			}
+		</script>
+
+
+  <script type="module" src="assets/lucy-index.js"></script>
+
 </body>
+
 </html>

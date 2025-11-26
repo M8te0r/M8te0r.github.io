@@ -131,6 +131,8 @@ $$
 
 ![alt text](image-14.png)
 
+- 在三维场景中，一个hex网格引导的标架场，其`streamline`总是对齐所有hex网格的边、面，并且沿着（图中深绿色的）对偶弦（`dual chords`）流动（图中淡绿色部分）。橙色的是分界线（`separatrices`）和分界面（`separating surfaces`）。
+
 ### Streamsurface
 `streamline`可以通过三维空间的向量场 $u(x):\mathbb{R}^3\rightarrow\mathbb{R}^3$  的积分唯一的确定。但是如果两个向量场 $u(x):\mathbb{R}^3\rightarrow\mathbb{R}^3$ 和 $v(x):\mathbb{R}^3\rightarrow\mathbb{R}^3$ 组合构造的`streamsurface`却并不能唯一的构造。以下图为例。
 
@@ -183,16 +185,205 @@ $$
 在六面体诱导的标架场中，所有的奇异点是由多个奇异弧汇聚而成的分支点，且满足 $||F||_2=0$ 。
 
 
-- 定理1：所有`meshable`的奇异点都可以通过对`index`为 $\frac{1}{4}$ 的`meshable`的奇异弧使用迭代的`unzipping`操作构造。
-- 定理2：一个标架场中，每个仅与于`index`为 $\pm \frac{1}{2}$ 的`meshable`奇异弧相交的奇异点，都可以通过仅修改局部邻域，分解为有限个孤立`meshable`奇异弧集合和有限个孤立`zipper nodes`集合。
-- 定理3：通过修改一个任意小的局部邻域，所有与`meshable`的奇异弧相交的奇异点，不管它与什么特征曲线和特征曲面相连，都可以被修改为`meshable`的奇异点，该节点连接着一组向外的`zipper`节点、若干组额外的孤立的`meshable`奇异弧、孤立的`zipper`节点。
+- **定理1**：所有`meshable`的奇异点都可以通过对`index`为 $\pm\frac{1}{4}$ 的`meshable`的奇异弧使用迭代的`unzipping`操作构造。
+- **定理2**：一个标架场中，每个仅与于`index`为 $\pm \frac{1}{4}$ 的`meshable`奇异弧相交的奇异点，都可以通过仅修改局部邻域，分解为有限个孤立`meshable`奇异弧集合和有限个孤立`zipper nodes`集合。
+- **定理3**：通过修改一个任意小的局部邻域，所有与`meshable`的奇异弧相交的奇异点，不管它与什么特征曲线和特征曲面相连，都可以被修改为`meshable`的奇异点，该节点连接着一组向外的`zipper`节点、若干组额外的孤立的`meshable`奇异弧、孤立的`zipper`节点。
 
 并不是所有的奇异点都是通过对`meshable`的奇异弧进行操作而得到的。
 
-$$
-\frac{1}{2}\sum_{i=0}^n\int_0^\infty ||\nabla \boldsymbol{F}||_2 \text{d}x
-$$
+
 
 ## 处理特征约束
+对于表面的特征约束，**定理2**并不能确保能够对奇异点进行分解。因为在进行修改时，特征对齐约束可能会导致产生新的不渴望个话区域。
+
+1. 逐步处理素有与奇异点相连的`non-meshable`（即`parabolic`）扇区
+2. 新增加的`parabolic`扇区不与奇异点相连，是一个拉链节点，其`unzipping`方向与原始奇异节点相反
+3. 所有的奇异弧保持`meshable`
+4. 有限考虑可以减少奇异弧数量的修改方案。
+
+对应的，有以下操作：
+1. T1，奇异弧分离（Detachment）
+
+
+# 离散局部可网格性
+
+### 标架场表示
+一个标架场是由 $SO(3)$ 中的元素，结合值域为八面体群 $\mathcal{O}\sub SO(3)$ 的匹配变换（`matching transformation`） $M$ ：
+$$
+F_i=[u_i,v_i,w_i] \in \mathbb{R}^{3\times 3}, \quad \det{F_i}=1
+$$
+
+从而，一个标架 $F_i$ 可以通过相邻元素变换得到：
+$$
+\eta_{i\to j}(F_i)=F_iM_{ij}, \quad M_{ij}=M_{ji}^{-1}
+$$
+
+### 边的单值环（Monodromy）
+
+$$
+\mu_{ij}=M_{i_0i_1}M_{i_1i_2}\cdots M_{i_ki_0}
+$$
+- Monodromy指的是对于tet的边 $e_{ij}$ 对应的对偶环 $D_{ij}$ ，在其上逆时针环绕一圈，访问过的tet单元 $c_{i0},c_{i1},\cdots,c_{ik}$ 。这个访问顺序对应一个沿着对偶环的组合变换`transformation`。
+
+### 流对齐Index和扇区类型
+![alt text](image-19.png)
+
+$$
+I_{ij}=\frac{1}{2\pi}\sum_{e_{kl}^\star \in D_{ij}} \alpha_{ij}(F_k M_{kl},F_l)
+$$
+
+-  $\alpha_{ij}(F,G)$ 表示带符号的旋转角度。以 $e_{ij}$ 为旋转轴，度量从标架 $F$ 到标架 $G$ 发生的旋转。
+-  $I_{ij}=I_{ji}$
+-  $D_{ij}$ 表示 $e_{ij}$ 的对偶环（`dual cycle`）
+-  
+
+$$
+\gamma_D=\sum_{c_{ijkl}\in D}\beta_{ij}^{kl}-\sum_{e_{kl}^\star\in D}\alpha_{ij}(F_k M_{kl},F_l)
+$$
+
+-  $\beta_{ij}^{kl}$ 表示与 $e_{ij}$ 相连的tet $(i,j,k,l)$ 构成的二面角（`dihedral angle`）
+- `quad`扇区， $\gamma_D=\frac{1}{2}\pi$ ，`polar`扇区， $\gamma_D=0$ ，`anti-quad`扇区， $\gamma_D=-\frac{1}{2}\pi$ 。
+
+## 标架场优化
+将标架场用单位四元数表示：
+$$
+f_i,M_i\in \mathbb{R}^4
+$$
+
+2个旋转的平均，可以用2个单位四元数 $q_0,q_1$ 表示：
+$$
+q_s=q_0+sgn(q_0\cdot q_1)q_1
+$$
+
+## 离散网格修复
+
+### 离散 Zipping
+![alt text](image-20.png)
+1. 记Tetmesh内部的一个由三角形面片的组成的拓扑圆盘为 $Z$
+2. 将穿过 $Z$ 中三角形的所有对偶边的matching统一为 $M_z\in \mathcal{O}$
+3. 选择 $\partial Z$上的两个顶点 $v_a,v_b$，将边界划分为两条从 $v_a$ 指向 $v_b$ 的弧 $A_1$ 和 $A_2$ 。将Monodromy的变化与标架场对 $A_1$ 和 $A_2$ 的对齐结合起来（即：选择与 $M_z$ 一致的标架轴），会将 $A_1$ 和 $A_2$ 的`index`分别变为 $I$ 和 $-I$
+4. 同样的，使用 $M_z^{-1}$ 可以反向的恢复 `Zipping 操作`
+
+## 处理奇异图上的噪声
+
+### 奇异结构重定位
+
+$$
+\text{s.t.}
+\begin{cases}
+x_i-p_i&=0, \quad \forall v_i\in V_F \\
+(x_i-p_i)\times t_i&=0, \quad \forall e_{ij}\in E_F \\
+(x_i-p_i)\cdot n_i &=0, \quad \forall t_{ijk} \in T_F
+\end{cases}
+$$
+
+构造了一个最优化问题
+$$
+\begin{align*}
+\min_{x}& \quad E_a+E_s+E_c+E_d+E_r \\
+\text{s.t}&\quad x_i-p_i=0, \forall v_i\in V_F \\
+&(x_i-p_i)\times t_i=0, \forall e_{ij}\in E_F \\
+&(x_i-p_i)\cdot n_i =0, \forall t_{ijk} \in T_F
+\end{align*}
+$$
+-  $x_i,p_i \in \mathbb{R}^3$ 分别代表奇异点 $v_i$ 的新坐标和当前坐标。
+-  $t_i \in \mathbb{R}^{3}$ 是与 $v_i$ 相连的特征切线的向量， $n_i$ 是相连的特征表面的法向量。
+
+**对齐（alignment）能量** $E_a$
+用于把奇异弧 $e_{ij}\in E_S$ 与相连的tet的平均标架场方向 $d_{ij}$ 对齐
+
+$$
+E_a=\frac{w_a}{s}\sum_{e_{ij}\in E_M}\frac{|(x_i-x_j)\times d_{ij}|^2}{l_{e_{ij}}}
+$$
+
+-  $l_{e_{ij}}$ 是边长， $E_M\sub E_S$ 是奇异边中具有`meshable`单值性的子集
+
+**收缩（shrink）能量** $E_s$
+用于收缩具有`non-meshable` `monodromy`的奇异边，或者同时收缩与拉链节点相连的边
+
+$$
+E_s=\frac{w_s}{s} \quad \sum_{e_{ij},e_{jk}\in E_C \cup E_Z} \frac{|x_i-x_j|^2}{l_{e_{ij}}}
+$$
+
+**曲率（curvature）能量** $E_c$
+用于平滑，通过最小化具有`meshable` `monodromy`的奇异弧的曲率，
+
+$$
+E_c=\frac{w_s}{s} \quad \sum_{e_{ij},e_{jk}\in E_M}\frac{|x_i+x_k-2x_j|^2}{l_{e_{ij}}+l_{e_{jk}}}
+$$
+
+
+**变形（deformation）能量** $E_d$
+用于防止tet退化或者翻转，同时防止表面法线发生翻转
+$$
+E_d=w_d\sum_{v_i\in V_S}\sum_{c_{ijkl}\in C} \log \frac{tr(J_t^TJ_t)}{det(J_t)^{\frac{2}{3}}}
+$$
+
+-  $J_t$ 是将tet变为规范型tet过程中的jacobi矩阵
+- 为了防止表面法线翻转，对于每一个边界顶点 $v_i$ ，将其所有相连的边界三角形，沿着其法线方向挤出（高度为局部平均边长）一个虚拟的tet（virtual tet），从而添加一组虚拟tet
+
+
+**排斥（repulsion）能量** $E_r$
+用于防止拉链节点修复，导致的奇异弧相互之间过于靠近。作用与所有新创建的弧 $V_R$ 上的顶点。
+
+$$
+E_r=\frac{w_r}{s} \sum_{v_i\in V_R} E_{r_i}
+$$
+
+$$
+E_{r_i}=
+\begin{cases}
+\frac{1}{2d_i}|x_i-\hat{p}_i|^2 \quad &\text{if} \,\, d_i \le l_{min} \\
+0 & \text{otherwise}
+\end{cases}
+$$
+
+- 其中， $\hat{p}_i=\frac{p_i+p_i'}{2}+l_{min}\frac{p_i-p_i'}{|p_i-p_i'|}$ ，是排斥的目标点，根据距离 $v_i$ 最近的另一条奇异弧上的顶点 $p_i'$ 计算得到
+-  $d_i$ 表示与 $p_i'$ 的距离
+-  $l_{min}$ 表示 $v_i$ 所在奇异弧上，奇异点的最小目标边长
+
+默认的参数设置为：
+$$
+\begin{cases}
+w_a=1\\
+w_s=1\\
+w_c=1\\
+w_r=0.1\\
+w_d=0.01\\
+s=\sqrt[3]{|\mathcal{T}|}
+\end{cases}
+$$
+
+# 整数网格映射构建
+## 无缝映射
+使用对称迪利克雷能量（symmetric dirichlet） $E_{SD}=\int_{\Omega}S_D(J)dV$
+$$
+S_D(J)=
+\begin{cases}
+||J||_2^2+||J^-1||_2^2 &\det J>0 \\
+\infty &\det J \le 0
+\end{cases}
+$$
+
+分片线性的可积性要求两个相邻tet $c_i,c_j$的梯度是相同的（在投影到公共三角面 $t_{ij}$ 时），从而可以得到一个线性约束：
+
+$$
+P_{ij}(J_I^T-M_{ij}^{-T}J_{j}^T)=\bar{0}
+$$
+
+到那时这个并不能保证可以得到全局单射，也不能保证 能够正确重现标架场的拓扑。从而，调整了能量的设置：
+
+$$
+\begin{cases}
+E_S=\int_{\Omega}||\nabla J||_2^2dV
+\end{cases}
+$$
+
+1. 增加了一个平滑设置 $E_S$
+2. 确保优化器不会产生翻转状态
+
+$$
+E=E_{SD}+w_S E_S+W_I E_I
+$$
 
 

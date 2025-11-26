@@ -78,7 +78,8 @@ $$
 假设给定一个标架 $\boldsymbol{F}=[\boldsymbol{f}_1,\boldsymbol{f}_2,\boldsymbol{f}_3]$ ，那么他的2阶矩张量是：
 
 $$
-L_2(\boldsymbol{F})=
+L_2(\boldsymbol{F})=\sum_i \boldsymbol{f}_i\otimes\boldsymbol{f}_i
+=
 \boldsymbol{f}_1\otimes\boldsymbol{f}_1+
 \boldsymbol{f}_2\otimes\boldsymbol{f}_2+
 \boldsymbol{f}_3\otimes\boldsymbol{f}_3
@@ -254,12 +255,10 @@ $$
 $$
 \min E_\text{mesh} 
 \quad \text{s.t.} 
-\left\{
-\begin{align*}
+\begin{cases}
     E_\text{int} &=0 \\
-    \boldsymbol{f}_1(\tau)&=\hat{\boldsymbol{n}}(\tau) \quad \forall \,\, \text{ghost tets} \,\, \tau
-\end{align*}
-\right .
+    \boldsymbol{f}_1(\mathcal{T})&=\hat{\boldsymbol{n}}(\mathcal{T}) \quad \forall \,\, \text{ghost tets} \,\, \mathcal{T}
+\end{cases}
 $$
 
 在实际中，使用**牛顿迭代法**求解该优化问题：
@@ -270,3 +269,12 @@ $$
 \arg\min_\mathfrak{F} 10^8 (\frac{1}{\lambda_\text{pen}})^i E_\text{mesh}+E_\text{int}
 $$
 
+
+
+$$
+\tilde{E}_\text{int}=E_\text{int}+\lambda_\text{reg}I
+$$
+
+$$
+\lambda_\text{reg}=0.1
+$$

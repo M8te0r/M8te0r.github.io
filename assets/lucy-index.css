@@ -1,0 +1,73 @@
+body {
+    margin: 0;
+    background-color: #000;
+    overscroll-behavior: none;
+    overflow: hidden;
+    height: 100%;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* --- 内容容器 (悬浮在画布之上) --- */
+#content-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    /* 让鼠标事件穿透文字层，直达 Canvas 实现交互 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    /* 确保在 Canvas 上方 */
+}
+
+/* 恢复链接的点击能力 */
+#content-layer a,
+#content-layer button {
+    pointer-events: auto;
+}
+
+h1 {
+    font-size: 3rem;
+    font-weight: 300;
+    letter-spacing: 2px;
+    margin-bottom: 2rem;
+    color:#fff;
+    text-shadow: 0 0 20px rgba(79, 209, 255, 0.5);
+    /* 淡淡的发光 */
+}
+
+/* --- 导航栏样式 --- */
+nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: 30px;
+    background: rgba(255, 255, 255, 0.1);
+    /* 磨砂玻璃背景 */
+    padding: 15px 40px;
+    border-radius: 50px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: #4fd1ff;
+    /* 悬停变为气泡蓝 */
+}
