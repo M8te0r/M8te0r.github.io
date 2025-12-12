@@ -15,7 +15,8 @@
     },
     "Maths": {
         "__root__": [
-            "math-concepts.md"
+            "math-concepts.md",
+            "Numerical PDE.md"
         ]
     }
 }
