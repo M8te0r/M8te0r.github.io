@@ -25,9 +25,7 @@ $$
 那么，对建模的公式两边同时除以 $A\Delta x \Delta t$ ，有：
 
 $$
-\frac{q(x,t)-q(x+\Delta x,t)}{\Delta x}
-=
-\frac{u(x,t+\Delta t)-u(x,t)}{\Delta t}
+\frac{q(x,t)-q(x+\Delta x,t)}{\Delta x}=\frac{u(x,t+\Delta t)-u(x,t)}{\Delta t}
 $$
 
 代入 $q$ 和 $u$ 的关系，可以得到偏微分方程：
@@ -36,7 +34,6 @@ $$
 \frac{\partial u}{\partial t}
 =
 \alpha\frac{\partial^2u}{\partial x^2}
-
 ,\quad \alpha=\frac{k}{\rho C}
 $$
 
@@ -47,7 +44,6 @@ $$
 =
 \alpha\frac{\partial^2u}{\partial x^2}
 +f(x,t)
-
 ,\quad \alpha=\frac{k}{\rho C}
 \quad f(x,t)=\frac{Q(x,t)}{\rho C}
 $$
