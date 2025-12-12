@@ -22,30 +22,26 @@ $$
 
 -  $k$ 是材料的热传导率。
 
-那么，对建模的公式两边同时除以 $A\Delta x \Delta t$ ，有：
+那么，对建模的公式两边同时除以 $A \Delta x \Delta t$ ，有：
 
 $$
 \frac{q(x,t)-q(x+\Delta x,t)}{\Delta x}=\frac{u(x,t+\Delta t)-u(x,t)}{\Delta t}
 $$
 
+
 代入 $q$ 和 $u$ 的关系，可以得到偏微分方程：
 
 $$
-\frac{\partial u}{\partial t}
-=
-\alpha\frac{\partial^2u}{\partial x^2}
-,\quad \alpha=\frac{k}{\rho C}
+\frac{\partial u}{\partial t}=\alpha\frac{\partial^2u}{\partial x^2},\quad \alpha=\frac{k}{\rho C}
 $$
 
 通常，系统存在外部热源，如增加热源项目 $f(x,t)$ 可以写为：
 
 $$
 \frac{\partial u}{\partial t}
-=
-\alpha\frac{\partial^2u}{\partial x^2}
-+f(x,t)
-,\quad \alpha=\frac{k}{\rho C}
-\quad f(x,t)=\frac{Q(x,t)}{\rho C}
+=\alpha\frac{\partial^2u}{\partial x^2}
++f(x,t),\quad 
+\alpha=\frac{k}{\rho C}\quad f(x,t)=\frac{Q(x,t)}{\rho C}
 $$
 
 -  $Q(x,t)$ 是单位体积内，单位时间内产生的热量。
@@ -106,8 +102,7 @@ $$
 
 $$
 \frac{\partial u}{\partial t}
-=
-\alpha\frac{\partial^2u}{\partial x^2}
+=\alpha\frac{\partial^2u}{\partial x^2}
 +f(x,t)
 $$
 
@@ -180,7 +175,7 @@ $$
 
 #### 物理上的直观构造
 从物理上看，积分符号由两部分组成：
-- 能量耗散： $\frac{1}{2}(\frac{du}{dx})^2$ 。$\int (\frac{d u}{d x})^2 d x$ 代表了系统为维持热流而产生的总熵生产率或耗散。系统趋向于热流梯度（即 $\frac{d^2 u}{d x^2}$）最小，即 $\frac{d^2 u}{d x^2}=0$（无源无界时）。
+- 能量耗散： $\frac{1}{2}(\frac{du}{dx})^2$ 。 $\int (\frac{d u}{d x})^2 d x$ 代表了系统为维持热流而产生的总熵生产率或耗散。系统趋向于热流梯度（即 $\frac{d^2 u}{d x^2}$）最小，即 $\frac{d^2 u}{d x^2}=0$（无源无界时）。
 - 外源做功： $-f(x) u$ 。这一项代表外部作用力或能量源 $f(x)$ 在场量 $u$ 上做的功。
 
 #### 数学公式上的逆向推导
@@ -244,18 +239,11 @@ $$
 $$
 \Pi[u] = 
 \iint_{\Omega} 
-[ 
-    \frac{1}{2} 
-    (
-        (\frac{\partial u}{\partial x})^2
-        +(\frac{\partial u}{\partial y})^2
-    )
-    -
-    f(x,y)u
-]
-dxdy
-+
-\text{边界项}
+[ \frac{1}{2} 
+    ((\frac{\partial u}{\partial x})^2
+        +(\frac{\partial u}{\partial y})^2)
+    -f(x,y)u]dxdy
++\text{边界项}
 $$
 
 求解能量泛函 $\Leftrightarrow$ 找到函数 $u(x, y)$ 使 $\Pi[u]$ 最小。
@@ -287,15 +275,10 @@ $$
 $$
 \Pi[u] = 
 \iint_{\Omega} 
-[ 
-    \frac{1}{2} 
+[\frac{1}{2} 
     (\nabla u_h(x,y))^2
-    -
-    fu_h(x,y)
-]
-dxdy
-+
-\text{边界项}
+    -fu_h(x,y)]dxdy
+    +\text{边界项}
 $$
 
 X 方向偏导数：
@@ -313,13 +296,11 @@ $$
 \frac{\partial u_h}{\partial x} \\ 
 \frac{\partial u_h}{\partial y} 
 \end{bmatrix} 
-= 
-\sum_{j=1}^{N} c_j 
+= \sum_{j=1}^{N} c_j 
 \begin{bmatrix} \frac{\partial \phi_j}{\partial x} \\ 
 \frac{\partial \phi_j}{\partial y} 
 \end{bmatrix} 
-= 
-\sum_{j=1}^{N} c_j \nabla \phi_j
+= \sum_{j=1}^{N} c_j \nabla \phi_j
 $$
 
 计算 $(\nabla u_h)^2 = \nabla u_h \cdot \nabla u_h$ ：
@@ -375,12 +356,12 @@ $$
 
 ##### 梯度下降
 1. 猜测一个初始解 $\mathbf{c}_0$（比如全为0）。
-2. 计算当前的下坡方向（残差）：$\mathbf{r}_0 = \mathbf{f} - \mathbf{K}\mathbf{c}_0$ 。
+2. 计算当前的下坡方向（残差）： $\mathbf{r}_0 = \mathbf{f} - \mathbf{K}\mathbf{c}_0$ 。
 3. 循环迭代 $k$ ：
-    - 确定方向：$\mathbf{p}_k = \mathbf{r}_k$ （直接沿着负梯度走）。
-    - 确定步长 $\alpha_k$：对于二次型能量，我们不需要像神经网络那样瞎调学习率，可以用公式算出精确的最优步长，使得这一步走完能量降得最低。$\alpha_k = \frac{\mathbf{r}_k^T \mathbf{r}_k}{\mathbf{r}_k^T \mathbf{K} \mathbf{r}_k}$
-    - 更新位置：$\mathbf{c}_{k+1} = \mathbf{c}_k + \alpha_k \mathbf{r}_k$ 。
-    - 更新残差：$\mathbf{r}_{k+1} = \mathbf{r}_k - \alpha_k \mathbf{K} \mathbf{r}_k$ 。
+    - 确定方向： $\mathbf{p}_k = \mathbf{r}_k$ （直接沿着负梯度走）。
+    - 确定步长： $\alpha_k$：对于二次型能量，我们不需要像神经网络那样瞎调学习率，可以用公式算出精确的最优步长，使得这一步走完能量降得最低。$\alpha_k = \frac{\mathbf{r}_k^T \mathbf{r}_k}{\mathbf{r}_k^T \mathbf{K} \mathbf{r}_k}$
+    - 更新位置： $\mathbf{c}_{k+1} = \mathbf{c}_k + \alpha_k \mathbf{r}_k$ 。
+    - 更新残差： $\mathbf{r}_{k+1} = \mathbf{r}_k - \alpha_k \mathbf{K} \mathbf{r}_k$ 。
 
 ##### 共轭梯度 Conjugate Gradient
 “最速下降法”之所以慢，是因为它可能会重复在同一个方向上搜索。CG 的策略是：一旦我们在某个方向上完成了搜索，之后所有的搜索方向都应该和这个方向“正交”（共轭），保证绝不走回头路。
@@ -430,7 +411,7 @@ for (int k = 0; k < MAX_ITER; ++k) {
 ```
 
 这个算法的美妙之处：
-- 内存友好： 不需要存储 $\mathbf{K}$ 的逆矩阵（那是天大的内存灾难），只需要存储稀疏的 $\mathbf{K}$ 和几个向量（$\mathbf{c}, \mathbf{r}, \mathbf{p}$）。
+- 内存友好： 不需要存储 $\mathbf{K}$ 的逆矩阵（那是天大的内存灾难），只需要存储稀疏的 $\mathbf{K}$ 和几个向量（ $\mathbf{c}, \mathbf{r}, \mathbf{p}$ ）。
 - 物理含义清晰： 每一步都在修正温度分布，使得能量 $\Pi$ 不断下降，且每个方向只走一次。
 
 ##### 牛顿法
@@ -457,7 +438,7 @@ for (int k = 0; k < MAX_ITER; ++k) {
     - 将 $\mathbf{K}$ 矩阵中，与边界节点 $i$ 对应的行和列全部置零，除了对角线元素 $K_{ii}$，将其置为 $1$。
     - 将 $\mathbf{f}$ 向量中，与边界节点 $i$ 对应的元素 $f_i$ 置为 $g_i$。
     
-效果： 经过修改，方程组的第 $i$ 行变成了：$0 \cdot c_1 + \dots + 1 \cdot c_i + \dots + 0 \cdot c_N = g_i$ 即 $c_i = g_i$。这强制求解器得到的结果满足边界约束，并且保持了矩阵的对称性（如果 $\mathbf{K}$ 本来是对称的）。
+效果： 经过修改，方程组的第 $i$ 行变成了： $0 \cdot c_1 + \dots + 1 \cdot c_i + \dots + 0 \cdot c_N = g_i$ 即 $c_i = g_i$ 。这强制求解器得到的结果满足边界约束，并且保持了矩阵的对称性（如果 $\mathbf{K}$ 本来是对称的）。
 
 #### 第二类约束：拉格朗日乘子法 (Lagrange Multipliers)
 这类方法将约束条件 $C(u) = 0$ 引入到能量泛函中，从而构造一个新的、无约束的拉格朗日泛函 $\mathcal{L}[u, \lambda]$ ：
@@ -477,7 +458,7 @@ $$
 u_h = \sum c_j \phi_j \quad \text{和} \quad \lambda_h = \sum \mu_k \psi_k
 $$
 
->（注意：$\lambda$ 的基函数 $\psi_k$ 通常与 $u$ 的基函数 $\phi_j$ 不同）。
+>（注意： $\lambda$ 的基函数 $\psi_k$ 通常与 $u$ 的基函数 $\phi_j$ 不同）。
 
 求导：
 -  $\frac{\partial \mathcal{L}}{\partial c_i} = 0 \quad \Rightarrow \quad \mathbf{K} \mathbf{c} + \mathbf{B}^T \boldsymbol{\mu} = \mathbf{f}$
@@ -494,8 +475,7 @@ $$
 \mathbf{c} \\
 \boldsymbol{\mu}
 \end{Bmatrix}
-=
-\begin{Bmatrix}
+=\begin{Bmatrix}
 \mathbf{f} \\
 \mathbf{g}
 \end{Bmatrix}
