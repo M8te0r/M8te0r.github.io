@@ -11,6 +11,29 @@ a {
     color: inherit;
 }
 
+#loading-screen {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2em;
+  z-index: 9999;
+  transition: opacity 0.8s ease;
+}
+
+#loading-screen.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+
+
 /* --- 内容容器 (悬浮在画布之上) --- */
 #content-layer {
     position: absolute;
